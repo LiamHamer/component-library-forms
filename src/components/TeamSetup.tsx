@@ -28,12 +28,16 @@ const TeamSetup: React.FC<TeamSetupProps> = ({ onTeamCreated }) => {
         onTeamCreated();
     }
 
+    const handleOnDelete = (id: number) => {
+        updateTeamMembers(teamMembers.filter(member => member.id !== id));
+    }
+
     return (
 
         <div className="team-setup">
             <h2>Team Setup:</h2>
             <TeamForm onSubmit={handleSubmit} />
-            <TeamList members={teamMembers || []} />
+            <TeamList members={teamMembers || []} onDelete={handleOnDelete} />
             <button onClick={handleTeamCreated}>Done</button>
         </div>
     );

@@ -3,9 +3,10 @@ import type { TeamMember } from '../types/teamMember';
 
 interface TeamListProps {
     members: TeamMember[];
+    onDelete: (id: number) => void;
 }
 
-const TeamList: React.FC<TeamListProps> = ({ members }) => {    
+const TeamList: React.FC<TeamListProps> = ({ members, onDelete }) => {
     return (
         <div className="team-list">
             <table className="w-full border-collapse">
@@ -24,6 +25,15 @@ const TeamList: React.FC<TeamListProps> = ({ members }) => {
                             <td className="p-3">{member.email}</td>
                             <td className="p-3">{member.role}</td>
                             <td className="p-3 text-right">${member.rate}/hr</td>
+                            <td className="p-3">
+                                <button
+                                    onClick={() => onDelete(member.id)}
+                                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                                    aria-label={`Delete ${member.name}`}
+                                >
+                                    Delete
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
