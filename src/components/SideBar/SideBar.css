@@ -1,0 +1,15 @@
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.nav-menu a {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.nav-menu a:hover {
+  background-color: rgba(100, 108, 255, 0.1);
+}
