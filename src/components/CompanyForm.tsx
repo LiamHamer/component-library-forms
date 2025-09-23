@@ -1,35 +1,15 @@
 import React from 'react';
 import type { Company } from '../types/company';
+import type { Option } from '../types/options';
 
 interface CompanyFormProps {
     onSubmit: (data: Company) => void;
+    industryOptions: Option[];
+    companySizeOptions: Option[];
+    revenueOptions: Option[];
 }
 
-const CompanyForm: React.FC<CompanyFormProps> = ({onSubmit}) => {
-    const industryOptions = [
-        { id: 1, value: 'Technology' },
-        { id: 2, value: 'Healthcare' },
-        { id: 3, value: 'Finance' },
-        { id: 4, value: 'Manufacturing' },
-        { id: 5, value: 'Retail' },
-        { id: 6, value: 'Other' }
-    ];
-
-    const companySizeOptions = [
-        { id: 1, value: '1-10 employees' },
-        { id: 2, value: '11-50 employees' },
-        { id: 3, value: '51-200 employees' },
-        { id: 4, value: '201-500 employees' },
-        { id: 5, value: '500+ employees' }
-    ];
-
-    const revenueOptions = [
-        { id: 1, value: 'Less than $1M' },
-        { id: 2, value: '$1M - $10M' },
-        { id: 3, value: '$10M - $50M' },
-        { id: 4, value: '$50M - $100M' },
-        { id: 5, value: '$100M+' }
-    ];
+const CompanyForm: React.FC<CompanyFormProps> = ({onSubmit, industryOptions, companySizeOptions, revenueOptions}) => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
