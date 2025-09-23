@@ -2,6 +2,7 @@ import React from 'react';
 // import { useCompany } from '../context/CompanyContext/useCompany';
 import TeamOverview from '../components/TeamOverview';
 import type { TeamMember } from '../types/teamMember';
+import RevenueLineChart from '../components/RevenueLineChart';
 
 const Dashboard: React.FC = () => {
     // const { currentCompany } = useCompany();
@@ -16,10 +17,10 @@ const Dashboard: React.FC = () => {
     return (
         <div className="dashboard">
             <h2>Dashboard</h2>
-            <div className="dashboard-content">
-                <p>Welcome to your dashboard</p>
+            <div className="dashboard-content" style={{ display: 'flex', gap: '2rem' }}>
                 {/* <TeamOverview members={currentCompany?.teamMembers || []} /> */}
                 <TeamOverview members={exampleMembers} />
+                <RevenueLineChart />
             </div>
         </div>
     );
