@@ -3,7 +3,11 @@ import CompanyForm from './CompanyForm';
 import type { Company } from '../types/company';
 import { useCompany } from '../context/CompanyContext/useCompany';
 
-const CompanySetup: React.FC = () => {
+interface CompanySetupProps {
+    onCompanyCreated: (company: Company) => void;
+}
+
+const CompanySetup: React.FC<CompanySetupProps> = ({ onCompanyCreated: onSubmit }) => {
     const { setCurrentCompany } = useCompany();
 
     const industryOptions = [
@@ -34,6 +38,7 @@ const CompanySetup: React.FC = () => {
 
     const handleSubmit = (company: Company) => {
         setCurrentCompany(company);
+        onSubmit(company);
     };
 
     return (

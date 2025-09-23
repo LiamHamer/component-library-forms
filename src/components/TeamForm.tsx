@@ -67,7 +67,7 @@ const TeamForm: React.FC<TeamFormProps> = ({ onSubmit }) => {
                 />
             </div>
 
-            <button type="submit">Submit</button>
+            <button type="submit">Add Member</button>
         </form>
     );
 };
