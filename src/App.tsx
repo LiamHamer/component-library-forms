@@ -5,6 +5,7 @@ import Onboarding from './pages/Onboarding'
 import Dashboard from './pages/Dashboard'
 import { CompanyProvider } from './context/CompanyContext/CompanyProvider'
 
+
 function App() {
 
   return (

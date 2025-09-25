@@ -2,7 +2,7 @@ import React from 'react';
 import CompanyForm from './CompanyForm';
 import type { Company } from '../types/company';
 import { useCompany } from '../context/CompanyContext/useCompany';
-
+import { Box, Container } from '@mui/material';
 interface CompanySetupProps {
     onCompanyCreated: (company: Company) => void;
 }
@@ -42,10 +42,12 @@ const CompanySetup: React.FC<CompanySetupProps> = ({ onCompanyCreated: onSubmit 
     };
 
     return (
-        <div className="company-setup">
+        <Container sx={{width:"100%" , height:"400px", maxWidth:"none"}}  disableGutters>
             <h2>Company Setup</h2>
             <CompanyForm onSubmit={handleSubmit} industryOptions={industryOptions} companySizeOptions={companySizeOptions} revenueOptions={revenueOptions} />
-        </div>
+        </Container>
+
+
     );
 };
 
