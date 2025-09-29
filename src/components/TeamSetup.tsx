@@ -32,12 +32,22 @@ const TeamSetup: React.FC<TeamSetupProps> = ({ onTeamCreated }) => {
         updateTeamMembers(teamMembers.filter(member => member.id !== id));
     }
 
-    return (
 
+    const handleOnUpdate = (id: number, updates: Partial<TeamMember>) => {
+        updateTeamMembers(teamMembers.map(member => 
+            member.id === id ? { ...member, ...updates } : member
+        ));
+    }
+
+    return (
         <div className="team-setup">
             <h2>Team Setup:</h2>
             <TeamForm onSubmit={handleSubmit} />
-            <TeamList members={teamMembers || []} onDelete={handleOnDelete} />
+            <TeamList 
+                members={teamMembers || []} 
+                onDelete={handleOnDelete} 
+                onUpdate={handleOnUpdate}  // Add this missing prop
+            />
             <button onClick={handleTeamCreated}>Done</button>
         </div>
     );
