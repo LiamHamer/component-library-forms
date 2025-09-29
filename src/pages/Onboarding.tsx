@@ -14,13 +14,7 @@ const Onboarding: React.FC = () => {
     const [state, dispatch] = useReducer(stepReducer, initialState);
     const navigate = useNavigate();
 
-    // const handleNext = () => {
-    //     dispatch({ type: 'NEXT_STEP' });
-    // };
-
-    // const handlePrev = () => {
-    //     dispatch({ type: 'PREV_STEP' });
-    // };
+    
 
     const handleGoToStep = (stepIndex: number) => {
         dispatch({ type: 'GO_TO_STEP', payload: stepIndex });
