@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import type { Company } from '../types/company';
-import type { Option } from '../types/options';
+import type{ Option } from '../types/options';
 import {
   Box,
   Button,
@@ -99,7 +99,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
                 labelId="industry-label"
                 id="industry"
                 name="industry"
-                label="industry"
+                label="Industry"
                 value={values.industry}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -125,8 +125,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
                 labelId="companySize-label"
                 id="companySize"
                 name="companySize"
-                label="company Size"
-
+                label="Company Size"
                 value={values.companySize}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -168,7 +167,7 @@ const CompanyForm: React.FC<CompanyFormProps> = ({
                 labelId="annualRevenue-label"
                 id="annualRevenue"
                 name="annualRevenue"
-                label= "annaul Revenue"
+                label="Annual Revenue"
                 value={values.annualRevenue}
                 onChange={handleChange}
                 onBlur={handleBlur}
