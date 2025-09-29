@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import type { TeamMember } from '../types/teamMember';
 import { Box, TextField, Button } from '@mui/material';
 
@@ -6,56 +8,27 @@ interface TeamFormProps {
   onSubmit: (data: TeamMember) => void;
 }
 
+const validationSchema = Yup.object({
+  name: Yup.string()
+    .required('Name is required')
+    .matches(/^[A-Za-z\s]+$/, 'No numbers or special characters allowed'),
+  email: Yup.string()
+    .required('Email is required')
+    .email('Invalid email format'),
+  role: Yup.string()
+    .required('Role is required')
+    .matches(/^[A-Za-z\s]+$/, 'No numbers or special characters allowed'),
+  rate: Yup.number()
+    .required('Rate is required')
+    .positive('Rate must be greater than 0'),
+});
+
 const TeamForm: React.FC<TeamFormProps> = ({ onSubmit }) => {
-  const [errors, setErrors] = useState<Record<string, string>>({});
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData);
-
-    const newErrors: Record<string, string> = {};
-
-
-        if (!data.name || String(data.name).trim() === '') {
-        newErrors.name = 'Name is required';
-      } else if (/\d/.test(String(data.name))) {
-        newErrors.name = "No numbers in name";
-      }else if (!/^[A-Za-z\s]+$/.test(String(data.name))) {
-  newErrors.name = "No special characters allowed";
-}
-
-
-    if (!data.email || String(data.email).trim() === '') {
-      newErrors.email = 'Email is required';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(data.email))) {
-      newErrors.email = 'Invalid email format';
-    }
-    if (!data.role || String(data.role).trim() === '') {
-      newErrors.role = 'Role is required';
-    }else if (/\d/.test(String(data.role))){
-    newErrors.role= 'no numbers'
-    }
-    else if (!/^[A-Za-z\s]+$/.test(String(data.role))) {
-  newErrors.role = "No special characters allowed";
-  }
-    if (!data.rate || Number(data.rate) <= 0) {
-      newErrors.rate = 'Rate must be greater than 0';
-    }
-
-    setErrors(newErrors);
-
-    if (Object.keys(newErrors).length === 0) {
-      onSubmit({
-        id: Date.now(),
-        name: String(data.name),
-        email: String(data.email),
-        role: String(data.role),
-        rate: Number(data.rate),
-      });
-      (e.target as HTMLFormElement).reset();
-      setErrors({});
-    }
+  const initialValues = {
+    name: '',
+    email: '',
+    role: '',
+    rate: '',
   };
 
   const fieldSx = {
@@ -77,86 +50,109 @@ const TeamForm: React.FC<TeamFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      noValidate
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 3,
-        maxWidth: 400,
-        mx: 'auto',
-        mt: 3,
-        p: 3,
-        borderRadius: 2,
-        boxShadow: 2,
-        background: '#242424',
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        const teamMember: TeamMember = {
+          id: Date.now(),
+          name: values.name,
+          email: values.email,
+          role: values.role,
+          rate: Number(values.rate),
+        };
+        onSubmit(teamMember);
+        resetForm();
+        setSubmitting(false);
       }}
     >
-      <TextField
-        id="name"
-        name="name"
-        label="Name"
-        defaultValue=""
-        required
-        fullWidth
-        error={!!errors.name}
-        helperText={errors.name}
-        sx={fieldSx}
-      />
+      {({ values, errors, touched, handleChange, handleBlur, isSubmitting }) => (
+        <Form>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 3,
+              maxWidth: 400,
+              mx: 'auto',
+              mt: 3,
+              p: 3,
+              borderRadius: 2,
+              boxShadow: 2,
+              background: '#242424',
+            }}
+          >
+            <TextField
+              id="name"
+              name="name"
+              label="Name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.name && Boolean(errors.name)}
+              helperText={touched.name && errors.name}
+              fullWidth
+              sx={fieldSx}
+            />
 
-      <TextField
-        id="email"
-        name="email"
-        label="Email"
-        type="email"
-        defaultValue=""
-        required
-        fullWidth
-        error={!!errors.email}
-        helperText={errors.email}
-        sx={fieldSx}
-      />
+            <TextField
+              id="email"
+              name="email"
+              label="Email"
+              type="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.email && Boolean(errors.email)}
+              helperText={touched.email && errors.email}
+              fullWidth
+              sx={fieldSx}
+            />
 
-      <TextField
-        id="role"
-        name="role"
-        label="Role"
-        defaultValue=""
-        required
-        fullWidth
-        error={!!errors.role}
-        helperText={errors.role}
-        sx={fieldSx}
-      />
+            <TextField
+              id="role"
+              name="role"
+              label="Role"
+              value={values.role}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.role && Boolean(errors.role)}
+              helperText={touched.role && errors.role}
+              fullWidth
+              sx={fieldSx}
+            />
 
-      <TextField
-        id="rate"
-        name="rate"
-        label="Hourly Rate"
-        type="number"
-        defaultValue=""
-        required
-        fullWidth
-        error={!!errors.rate}
-        helperText={errors.rate}
-        sx={fieldSx}
-      />
+            <TextField
+              id="rate"
+              name="rate"
+              label="Hourly Rate"
+              type="number"
+              value={values.rate}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={touched.rate && Boolean(errors.rate)}
+              helperText={touched.rate && errors.rate}
+              fullWidth
+              sx={fieldSx}
+            />
 
-      <Button
-        type="submit"
-        variant="contained"
-        sx={{
-          background: '#1a1a1a',
-          border: '1px solid transparent',
-          '&:hover': { borderColor: 'white' },
-          mt: 2,
-        }}
-      >
-        Add Member
-      </Button>
-    </Box>
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={isSubmitting}
+              sx={{
+                background: '#1a1a1a',
+                border: '1px solid transparent',
+                '&:hover': { borderColor: 'white' },
+                mt: 2,
+              }}
+            >
+              Add Member
+            </Button>
+          </Box>
+        </Form>
+      )}
+    </Formik>
   );
 };
 

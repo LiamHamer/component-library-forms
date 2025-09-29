@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Box, Paper, Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import {
   LineChart,
   Line,
@@ -34,7 +34,7 @@ const RevenueLineChart = () => {
       <Typography variant="h6" align="center" gutterBottom>
         Monthly Revenue
       </Typography>
-      <ResponsiveContainer width={600} height={400}>
+      <ResponsiveContainer width="100%" height={400}>
         <LineChart data={revenueData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
           <CartesianGrid stroke="#e0e0e0" strokeDasharray="3 3" />
           <XAxis dataKey="month" />
